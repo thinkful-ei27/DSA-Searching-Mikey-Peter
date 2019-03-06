@@ -25,21 +25,35 @@ class App extends Component {
     })
   }
 
-  handleBinaryRecursion(sortedList, item, start, end) {
+  handleBinaryRecursion(sortedList, item, start, end, ticks = 1) {
+    console.log(ticks);
+    
     start = start === undefined ? 0 : start;
     end = end === undefined ? sortedList.length : end;
     if (start > end) return -1;
     const index = Math.floor((start + end) / 2);
     const tempItem = sortedList[index];
-    item === tempItem ?
+    if (tempItem === item) {
+      return [index, ticks];
+    }
+    else if (tempItem < item) {
+      return this.handleBinaryRecursion(sortedList, item, index + 1, end, ticks + 1 )
+    }
+    else if (tempItem > item) {
+      return this.handleBinaryRecursion(sortedList, item, start,  index - 1, ticks + 1)
+    }
   }
 
 
   binarySearch(list, item) {
     const listArr = list.split(' ');
     const sortedList = listArr.sort((a, b) => a - b)
-    const result = this.handleBinaryRecursion(sortedList, item)
-    return result;
+    const result = this.handleBinaryRecursion(sortedList, item);
+    const [index, ticks] = result;
+    if (index === -1) {
+      return 'The item was not found';
+    }
+    return `The binary result is ${listArr[index]}. It took ${ticks} times to find it`;
   }
 
 
@@ -57,7 +71,7 @@ class App extends Component {
   submitToAlgorithm(e) {
     e.preventDefault();
     e.target.children.list.value = '';
-    e.target.children.myItem.value = ''
+    e.target.children.myItem.value = '';
     let list = this.state.list;
     let item = this.state.item;
 
@@ -66,6 +80,8 @@ class App extends Component {
 
 
     const binaryAnswer = this.binarySearch(list, item);
+    console.log(binaryAnswer);
+    
 
 
     let [result, counter] = linearAnswer
@@ -76,21 +92,24 @@ class App extends Component {
 
     }
     else {
-      linearOutputString = `The result is ${result}. It took ${counter} times to find it`
+      linearOutputString = `The linear result is ${result}. It took ${counter} times to find it`;
     }
 
 
 
     this.setState({
       linearOutput: linearOutputString,
-      binaryOutput: '',
+      binaryOutput: binaryAnswer,
       list: '',
       item: ''
     });
   }
 
   render() {
-    let answer = <p>{this.state.linearOutput}</p>
+    let answer = (<div>
+      <p>{this.state.linearOutput}</p>
+      <p>{this.state.binaryOutput}</p>
+        </div>)
 
 
     return (
