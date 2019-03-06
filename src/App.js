@@ -6,34 +6,50 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: '',
+      list: '',
+      item: '',
       output: ''
     }
   }
 
-  handleChange(e) {
+  handleListChange(e) {
     this.setState({
-      value: e.target.value
+      list: e.target.value
+    })
+  }
+
+  handleItemChange(e) {
+    this.setState({
+      item: e.target.value
     })
   }
 
 
-  ourAlgorithm(){
-
-
-
-
+  linearSearch(list, item){
+    const listArr = list.split(' ')
+    let counter = 0;
+    const result = listArr.find((listItem) => {
+      counter++;
+      return listItem === item;
+    });
+    return [result, counter];
     
   }
 
   submitToAlgorithm(e) {
     e.preventDefault();
-    let formInput = this.state.value
-    // ourAlgorithm(formInput)
+    e.target.children.list.value = '';
+    e.target.children.myItem.value = ''
+    let list = this.state.list;
+    let item = this.state.item;
+    let answer = this.linearSearch(list, item);
+    let [result, counter] = answer
 
     this.setState({
-      output: formInput
-    })
+      output: `The result is ${result}. It took ${counter} times to find it`,
+      list: '',
+      item: ''
+    });
   }
 
   render() {
@@ -43,8 +59,10 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <form onSubmit={(e) => this.submitToAlgorithm(e)}>
-            <label>Form</label>
-            <input type='textbox' value={this.state.value} onChange={(e) => this.handleChange(e)} />
+            <label htmlFor="list">Data Set:</label>            
+            <input type="text" name="list" onChange={(e) => this.handleListChange(e)} />
+            <label htmlFor="item">Item To Search For:</label>
+            <input type='text' name="myItem" onChange={(e) => this.handleItemChange(e)}/> 
             <button type='submit'>Run Super awesome algorithm</button>
           </form>
           {answer}
