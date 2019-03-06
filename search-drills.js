@@ -113,7 +113,7 @@ class BinarySearchTree {
     if (this.left) {
       values = this.left.dfsPost(values);
     }
-    
+
     if (this.right) {
       values = this.right.dfsPost(values);
     }
@@ -168,7 +168,7 @@ function createBst(list) {
   return BST;
 }
 const bstToSort = createBst(dataList);
-console.log(JSON.stringify(bstToSort, null, 2));
+// console.log(JSON.stringify(bstToSort, null, 2));
 
 
 // Testing ordering drill
@@ -184,9 +184,23 @@ write an algorithm to work out what the maximum profit you could make would be. 
 
 const sharePrices = [128, 97, 121, 123, 98, 97, 105]
 function maxProfit(prices) {
+  let highestProfit = 0; //bestDayToSell - bestDaytoBuy;
+  let bestDayToBuy = 0;
+  let bestDayToSell = 0;
   for (let i = 0; i < prices.length; i++) {
-    console.log(prices[i]);
+    let buyPrice = prices[i];
+    for (let j = i + 1; j < prices.length; j++) {
+      let sellPrice = prices[j];
+      let profit = sellPrice - buyPrice;
+      //  if profit is > highestProfit;
+      if (profit > highestProfit) {
+        highestProfit = profit;
+        bestDayToBuy = i + 1;
+        bestDayToSell = j + 1;
+      }
+    }
   }
+  return `best Day to buy ${bestDayToBuy}, best Day to sell ${bestDayToSell}, for a profit of ${highestProfit}`
 }
 
 console.log(maxProfit(sharePrices));
