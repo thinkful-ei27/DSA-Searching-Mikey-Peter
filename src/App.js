@@ -8,7 +8,8 @@ class App extends Component {
     this.state = {
       list: '',
       item: '',
-      output: ''
+      linearOutput: '',
+      binaryOutput: ''
     }
   }
 
@@ -24,8 +25,25 @@ class App extends Component {
     })
   }
 
+  handleBinaryRecursion(sortedList, item, start, end) {
+    start = start === undefined ? 0 : start;
+    end = end === undefined ? sortedList.length : end;
+    if (start > end) return -1;
+    const index = Math.floor((start + end) / 2);
+    const tempItem = sortedList[index];
+    item === tempItem ?
+  }
 
-  linearSearch(list, item){
+
+  binarySearch(list, item) {
+    const listArr = list.split(' ');
+    const sortedList = listArr.sort((a, b) => a - b)
+    const result = this.handleBinaryRecursion(sortedList, item)
+    return result;
+  }
+
+
+  linearSearch(list, item) {
     const listArr = list.split(' ')
     let counter = 0;
     const result = listArr.find((listItem) => {
@@ -33,7 +51,7 @@ class App extends Component {
       return listItem === item;
     });
     return [result, counter];
-    
+
   }
 
   submitToAlgorithm(e) {
@@ -42,28 +60,49 @@ class App extends Component {
     e.target.children.myItem.value = ''
     let list = this.state.list;
     let item = this.state.item;
-    let answer = this.linearSearch(list, item);
-    let [result, counter] = answer
+
+
+    let linearAnswer = this.linearSearch(list, item);
+
+
+    const binaryAnswer = this.binarySearch(list, item);
+
+
+    let [result, counter] = linearAnswer
+    let linearOutputString;
+
+    if (!result) {
+      linearOutputString = `Did not find requested input item in list after ${counter} times`;
+
+    }
+    else {
+      linearOutputString = `The result is ${result}. It took ${counter} times to find it`
+    }
+
+
 
     this.setState({
-      output: `The result is ${result}. It took ${counter} times to find it`,
+      linearOutput: linearOutputString,
+      binaryOutput: '',
       list: '',
       item: ''
     });
   }
 
   render() {
-    let answer = <p>{this.state.output}</p>
+    let answer = <p>{this.state.linearOutput}</p>
+
 
     return (
       <div className="App">
         <header className="App-header">
+
           <form onSubmit={(e) => this.submitToAlgorithm(e)}>
-            <label htmlFor="list">Data Set:</label>            
+            <label htmlFor="list">Data Set:</label>
             <input type="text" name="list" onChange={(e) => this.handleListChange(e)} />
             <label htmlFor="item">Item To Search For:</label>
-            <input type='text' name="myItem" onChange={(e) => this.handleItemChange(e)}/> 
-            <button type='submit'>Run Super awesome algorithm</button>
+            <input type='text' name="myItem" onChange={(e) => this.handleItemChange(e)} />
+            <button name='linear' type='submit'>Run Amesome Linear algorithm</button>
           </form>
           {answer}
         </header>
