@@ -1,28 +1,57 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      value: '',
+      output: ''
+    }
+  }
+
+  handleChange(e) {
+    this.setState({
+      value: e.target.value
+    })
+  }
+
+
+  ourAlgorithm(){
+
+
+
+
+    
+  }
+
+  submitToAlgorithm(e) {
+    e.preventDefault();
+    let formInput = this.state.value
+    // ourAlgorithm(formInput)
+
+    this.setState({
+      output: formInput
+    })
+  }
+
   render() {
+    let answer = <p>{this.state.output}</p>
+
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <form onSubmit={(e) => this.submitToAlgorithm(e)}>
+            <label>Form</label>
+            <input type='textbox' value={this.state.value} onChange={(e) => this.handleChange(e)} />
+            <button type='submit'>Run Super awesome algorithm</button>
+          </form>
+          {answer}
         </header>
       </div>
     );
   }
-}
 
+}
 export default App;
