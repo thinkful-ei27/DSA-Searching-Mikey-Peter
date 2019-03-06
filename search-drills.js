@@ -182,3 +182,11 @@ The share price for a company over a week's trading is as follows: [128, 97, 121
 If you had to buy shares in the company on one day, and sell the shares on one of the following days, 
 write an algorithm to work out what the maximum profit you could make would be. */
 
+const sharePrices = [128, 97, 121, 123, 98, 97, 105]
+function maxProfit(prices) {
+  for (let i = 0; i < prices.length; i++) {
+    console.log(prices[i]);
+  }
+}
+
+console.log(maxProfit(sharePrices));
