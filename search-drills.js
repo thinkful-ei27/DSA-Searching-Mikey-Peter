@@ -98,7 +98,27 @@ class BinarySearchTree {
   }
 
   dfsPre(values = []) {
+    values.push(this.value);
+    if (this.left) {
+      values = this.left.dfsPre(values);
+    }
 
+    if (this.right) {
+      values = this.right.dfsPre(values);
+    }
+    return values;
+  }
+
+  dfsPost(values = []) {
+    if (this.left) {
+      values = this.left.dfsPost(values);
+    }
+    
+    if (this.right) {
+      values = this.right.dfsPost(values);
+    }
+    values.push(this.value);
+    return values;
   }
 
   _replaceWith(node) {
@@ -150,4 +170,8 @@ function createBst(list) {
 const bstToSort = createBst(dataList);
 console.log(JSON.stringify(bstToSort, null, 2));
 
-console.log(bstToSort.dfs());
+// console.log('in order traversal ===========',bstToSort.dfs());
+// console.log('pre order traversal ===========',bstToSort.dfsPre());
+// console.log('post order traversal ===========',bstToSort.dfsPost());
+
+
