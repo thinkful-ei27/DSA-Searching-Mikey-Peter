@@ -170,8 +170,15 @@ function createBst(list) {
 const bstToSort = createBst(dataList);
 console.log(JSON.stringify(bstToSort, null, 2));
 
+
+// Testing ordering drill
 // console.log('in order traversal ===========',bstToSort.dfs());
 // console.log('pre order traversal ===========',bstToSort.dfsPre());
 // console.log('post order traversal ===========',bstToSort.dfsPost());
 
+
+/* Max Profit =================================================
+The share price for a company over a week's trading is as follows: [128, 97, 121, 123, 98, 97, 105]. 
+If you had to buy shares in the company on one day, and sell the shares on one of the following days, 
+write an algorithm to work out what the maximum profit you could make would be. */
 
